@@ -2980,9 +2980,7 @@
 
     const isMobileUI = window.innerWidth <= 768;
 
-    // Custom slow, liquid easing for extreme smoothness like the Dribbble refs
     const tl = gsap.timeline({ delay: isMobileUI ? 0.1 : 0.4 });
-    if (isMobileUI) { tl.timeScale(1.8); } // Speed up splash by 80% on mobile
 
     /* 1 ── Logo fades + floats up slightly */
     tl.fromTo(logoSvg,
@@ -3203,7 +3201,7 @@
 
     // ── Hero Background Animation ──────────────────────────────
     const canvas = document.getElementById('hero-canvas');
-    if (canvas) {
+    if (canvas && !isMobileUI) {
       const ctx = canvas.getContext('2d');
       let chevrons = [];
       let w, h;
@@ -3574,7 +3572,7 @@
         duration: isMobileUI ? 0.6 : 1.1,
         scrollTrigger: {
           trigger: wrap,
-          start: isMobileUI ? 'top 120%' : 'top 95%',
+          start: isMobileUI ? 'top 100%' : 'top 85%', // Triggers immediately on mobile without waiting
           end: 'top 40%',
           scrub: isMobileUI ? false : 0.6, // Remove heavy scrub lag on mobile so cards load fast
         }
@@ -3586,7 +3584,7 @@
       gsap.from(elem, {
         scrollTrigger: {
           trigger: elem,
-          start: isMobileUI ? 'top 120%' : 'top 95%',
+          start: isMobileUI ? 'top 100%' : 'top 85%',
           onEnter: () => gsap.set(elem, { visibility: 'visible' })
         },
         opacity: 0,
@@ -3626,7 +3624,7 @@
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: isMobileUI ? 'top 110%' : 'top 95%',
+          start: isMobileUI ? 'top 100%' : 'top 85%',
           toggleActions: 'play none none none',
         }
       });
