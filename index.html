@@ -3563,33 +3563,41 @@
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.utils.toArray('.offer-card-wrap').forEach((wrap) => {
+      if (isMobileUI) {
+        gsap.set(wrap, { opacity: 1, rotateX: 0, translateY: 0, scale: 1 });
+        return;
+      }
       gsap.to(wrap, {
         opacity: 1,
         rotateX: 0,
         translateY: 0,
         scale: 1,
         ease: 'power3.out',
-        duration: isMobileUI ? 0.6 : 1.1,
+        duration: 1.1,
         scrollTrigger: {
           trigger: wrap,
-          start: isMobileUI ? 'top 100%' : 'top 85%', // Triggers immediately on mobile without waiting
+          start: 'top 85%', // Safely trigger before it enters fully
           end: 'top 40%',
-          scrub: isMobileUI ? false : 0.6, // Remove heavy scrub lag on mobile so cards load fast
+          scrub: 0.6, // Remove heavy scrub lag on mobile so cards load fast
         }
       });
     });
 
     // Reveal elements on scroll
     gsap.utils.toArray('.reveal-scroll').forEach(elem => {
+      if (isMobileUI) {
+        gsap.set(elem, { visibility: 'visible', opacity: 1, y: 0 });
+        return;
+      }
       gsap.from(elem, {
         scrollTrigger: {
           trigger: elem,
-          start: isMobileUI ? 'top 100%' : 'top 85%',
+          start: 'top 85%',
           onEnter: () => gsap.set(elem, { visibility: 'visible' })
         },
         opacity: 0,
-        y: isMobileUI ? 20 : 40,
-        duration: isMobileUI ? 0.5 : 1,
+        y: 40,
+        duration: 1,
         ease: 'power3.out'
       });
     });
@@ -3616,15 +3624,19 @@
     aboutCards.forEach(({ id, delay }) => {
       const el = document.querySelector(id);
       if (!el) return;
+      if (isMobileUI) {
+        gsap.set(el, { opacity: 1, y: 0 });
+        return;
+      }
       gsap.to(el, {
         opacity: 1,
         y: 0,
-        duration: isMobileUI ? 0.6 : 0.9,
-        delay: isMobileUI ? 0 : delay, // Kill delays on mobile for instant pop-in
+        duration: 0.9,
+        delay: delay,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: isMobileUI ? 'top 100%' : 'top 85%',
+          start: 'top 85%',
           toggleActions: 'play none none none',
         }
       });
