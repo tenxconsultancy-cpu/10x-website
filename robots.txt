@@ -1,0 +1,31 @@
+# robots.txt — 10X Consultancy
+# Allow all bots, including AI crawlers (GPTBot, ClaudeBot, PerplexityBot)
+
+User-agent: *
+Allow: /
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Google Extended (Gemini training)
+User-agent: Google-Extended
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+Sitemap: https://10xconsultancy.com/sitemap.xml
