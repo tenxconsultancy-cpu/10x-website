@@ -2980,7 +2980,12 @@
 
     const isMobileUI = window.innerWidth <= 768;
 
-    const tl = gsap.timeline({ delay: isMobileUI ? 0.1 : 0.4 });
+    const tl = gsap.timeline({ delay: isMobileUI ? 0 : 0.4 });
+
+    // Speed up the entire opening sequence on mobile for a snappier feel
+    if (isMobileUI) {
+      tl.timeScale(1.8);
+    }
 
     /* 1 ── Logo fades + floats up slightly */
     tl.fromTo(logoSvg,
