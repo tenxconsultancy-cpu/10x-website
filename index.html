@@ -1945,8 +1945,8 @@
 
       .hero-logo {
         width: min(360px, 90vw);
-        transform: none;
-        /* Remove desktop nudge so it centers perfectly */
+        transform: translateX(12%);
+        /* Re-center the left-heavy SVG viewport on mobile so it perfectly aligns with title */
       }
 
       .hero-h1 {
@@ -2978,8 +2978,11 @@
 
     const PIVOT = '225px 100px'; // Shifted 35px left for tighter kerning
 
+    const isMobileUI = window.innerWidth <= 768;
+
     // Custom slow, liquid easing for extreme smoothness like the Dribbble refs
-    const tl = gsap.timeline({ delay: 0.4 });
+    const tl = gsap.timeline({ delay: isMobileUI ? 0.1 : 0.4 });
+    if (isMobileUI) { tl.timeScale(1.8); } // Speed up splash by 80% on mobile
 
     /* 1 ── Logo fades + floats up slightly */
     tl.fromTo(logoSvg,
@@ -3568,12 +3571,12 @@
         translateY: 0,
         scale: 1,
         ease: 'power3.out',
-        duration: 1.1,
+        duration: isMobileUI ? 0.6 : 1.1,
         scrollTrigger: {
           trigger: wrap,
-          start: 'top 95%',
+          start: isMobileUI ? 'top 120%' : 'top 95%',
           end: 'top 40%',
-          scrub: 0.6,
+          scrub: isMobileUI ? false : 0.6, // Remove heavy scrub lag on mobile so cards load fast
         }
       });
     });
@@ -3583,12 +3586,12 @@
       gsap.from(elem, {
         scrollTrigger: {
           trigger: elem,
-          start: 'top 95%',
+          start: isMobileUI ? 'top 120%' : 'top 95%',
           onEnter: () => gsap.set(elem, { visibility: 'visible' })
         },
         opacity: 0,
-        y: 40,
-        duration: 1,
+        y: isMobileUI ? 20 : 40,
+        duration: isMobileUI ? 0.5 : 1,
         ease: 'power3.out'
       });
     });
@@ -3618,12 +3621,12 @@
       gsap.to(el, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
-        delay,
+        duration: isMobileUI ? 0.6 : 0.9,
+        delay: isMobileUI ? 0 : delay, // Kill delays on mobile for instant pop-in
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 95%',
+          start: isMobileUI ? 'top 110%' : 'top 95%',
           toggleActions: 'play none none none',
         }
       });
